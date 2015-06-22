@@ -1,163 +1,168 @@
-//----------name sapse GRID-----------------------------------
-var GRID = {};
-
-// add  object 'Vector' in name spase 'Grid'
-GRID.Vector = function(x, y) {
-  this.x = x;
-  this.y = y;
-};
-GRID.Vector.prototype.plus = function(other) {
-  return new GRID.Vector(this.x + other.x, this.y + other.y);
-};
-
-// add  object 'Grid' in name spase 'Grid'
-GRID.Grid = function(width, height) {
-  this.space = new Array(width * height);
-  this.width = width;
-  this.height = height;
-};
-GRID.Grid.prototype.isInside = function(vector) {
-  return vector.x >= 0 && vector.x < this.width &&
-         vector.y >= 0 && vector.y < this.height;
-};
-GRID.Grid.prototype.get = function(vector) {
-  return this.space[vector.x + this.width * vector.y];
-};
-GRID.Grid.prototype.set = function(vector, value) {
-  this.space[vector.x + this.width * vector.y] = value;
-};
-GRID.Grid.prototype.forEach = function(f, context) {
-  for (var y = 0; y < this.height; y++) {
-    for (var x = 0; x < this.width; x++) {
-      var value = this.space[x + y * this.width];
-      if (value !== null)
-        f.call(context, value, new GRID.Vector(x, y));
-    }
+//-----------------------module grid----------------------------
+var gridModule = (function(){
+  function Vector(x, y) {
+    this.x = x;
+    this.y = y;
   }
-};
+  Vector.prototype.plus = function(other) {
+    return new Vector(this.x + other.x, this.y + other.y);
+  };
 
-//add 'direction' in namespase 'Grid'
-GRID.directions = {
-  "n":  new GRID.Vector( 0, 1),
-  "ne": new GRID.Vector( 1, -1),
-  "e":  new GRID.Vector( 1,  0),
-  "se": new GRID.Vector( 1,  1),
-  "s":  new GRID.Vector( 0, -1),
-  "sw": new GRID.Vector(-1,  1),
-  "w":  new GRID.Vector(-1,  0),
-  "nw": new GRID.Vector(-1, -1)
-};
-
-//-------------------name sapse WORLD------------------------
-var WORLD = {};
-
-// add 'randomElement' in name sapse WORLD
-WORLD.randomElement = function(array) {
-  return array[Math.floor(Math.random() * array.length)];
-};
-
-//add 'elementFromChar' in name sapse WORLD
-WORLD.elementFromChar = function (legend, ch) {
-  if (ch == " ")
-    return null;
-  var element = new legend[ch]();
-  element.originChar = ch;
-  return element;
-};
-
-//add 'World' in name sapse WORLD 
-WORLD.World = function(map, legend) {
-  var grid = new GRID.Grid(map[0].length, map.length);
-  this.grid = grid;
-  this.legend = legend;
-
-  map.forEach(function(line, y) {
-    for (var x = 0; x < line.length; x++)
-      grid.set(new GRID.Vector(x, y),
-               WORLD.elementFromChar(legend, line[x]));
-  });
-};
-
-//add 'charFromElement' in name sapse WORLD
-WORLD.charFromElement = function(element) {
-  if (element === null)
-    return " ";
-  else
-    return element.originChar;
-};
-
-//add 'toString' in name sapse WORLD
-WORLD.World.prototype.toString = function() {
-  var output = "";
-  for (var y = 0; y < this.grid.height; y++) {
-    for (var x = 0; x < this.grid.width; x++) {
-      var element = this.grid.get(new GRID.Vector(x, y));
-      output += WORLD.charFromElement(element);
-    }
-    output += "\n";
+  function Grid(width, height) {
+    this.space = new Array(width * height);
+    this.width = width;
+    this.height = height;
   }
-  return output;
-};
 
-//----------------Animating life--------------------------
-WORLD.World.prototype.turn = function() {
-  var acted = [];
-  this.grid.forEach(function(critter, vector) {
-    if (critter.act && acted.indexOf(critter) == -1) {
-      acted.push(critter);
-      this.letAct(critter, vector);
-    }
-  }, this);
-};
+  Grid.prototype = {
+    isInside : function(vector) {
+      return vector.x >= 0 && vector.x < this.width &&
+       vector.y >= 0 && vector.y < this.height;
+    },
+    get : function(vector) {
+      return this.space[vector.x + this.width * vector.y];
+    },
+    set : function(vector, value) {
+      this.space[vector.x + this.width * vector.y] = value;
+    },
+    forEach : function(f, context) {
+      for (var y = 0; y < this.height; y++) {
+        for (var x = 0; x < this.width; x++) {
+          var value = this.space[x + y * this.width];
+          if (value !== null)
+          f.call(context, value, new Vector(x, y));
+        }
+      }
+    },
+  };
 
-WORLD.World.prototype.letAct = function(critter, vector) {
-  var action = critter.act(new View(this, vector));
-  if (action && action.type == "move") {
-    var dest = this.checkDestination(action, vector);
-    if (dest && this.grid.get(dest) === null) {
-      this.grid.set(vector, null);
-      this.grid.set(dest, critter);
-    }
+  var  directions = {
+    "n":  new Vector( 0, 1),
+    "ne": new Vector( 1, -1),
+    "e":  new Vector( 1,  0),
+    "se": new Vector( 1,  1),
+    "s":  new Vector( 0, -1),
+    "sw": new Vector(-1,  1),
+    "w":  new Vector(-1,  0),
+    "nw": new Vector(-1, -1)
+  };
+
+  return {
+    Vector: Vector,
+    Grid: Grid,
+    directions : directions,
+  };
+})();
+
+
+//--------------------module World----------------------------
+var moduleWorld = (function(){
+  function randomElement(array) {
+     return array[Math.floor(Math.random() * array.length)];
   }
-};
 
-WORLD.World.prototype.checkDestination = function(action, vector) {
-  if (GRID.directions.hasOwnProperty(action.direction)) {
-    var dest = vector.plus(GRID.directions[action.direction]);
-    if (this.grid.isInside(dest))
-      return dest;
+  function elementFromChar(legend, ch) {
+    if (ch == " ")
+      return null;
+    var element = new legend[ch]();
+    element.originChar = ch;
+    return element;
   }
-};
 
-//add 'View'  in name sapse WORLD
-WORLD.View = function(world, vector) {
-  this.world = world;
-  this.vector = vector;
-};
- 
-WORLD.View.prototype.look = function(dir) {
-  var target = this.vector.plus(GRID.directions[dir]);
-  if (this.world.grid.isInside(target))
-    return WORLD.charFromElement(this.world.grid.get(target));
-  else
-    return "#";
-};
+  function World(map, legend) {
+    var grid = new gridModule.Grid(map[0].length, map.length);
+    this.grid = grid;
+    this.legend = legend;
 
-WORLD.View.prototype.findAll = function(ch) {
-  var found = [];
-  for (var dir in GRID.directions)
-    if (this.look(dir) == ch)
-      found.push(dir);
-  return found;
-};
+    map.forEach(function(line, y) {
+      for (var x = 0; x < line.length; x++)
+        grid.set(new gridModule.Vector(x, y),
+                 elementFromChar(legend, line[x]));
+    });
+  }
 
-WORLD.View.prototype.find = function(ch) {
-  var found = this.findAll(ch);
-  if (found.length === 0) return null;
-  return WORLD.randomElement(found);
-};
+  function charFromElement(element) {
+    if (element === null)
+      return " ";
+    else
+      return element.originChar;
+  }
 
+  World.prototype = {
+    toString: function() {
+      var output = "";
+      for (var y = 0; y < this.grid.height; y++) {
+        for (var x = 0; x < this.grid.width; x++) {
+          var element = this.grid.get(new gridModule.Vector(x, y));
+          output += charFromElement(element);
+        }
+        output += "\n";
+      }
+      return output;
+    },
+    turn: function() {
+      var acted = [];
+      this.grid.forEach(function(critter, vector) {
+        if (critter.act && acted.indexOf(critter) == -1) {
+          acted.push(critter);
+          this.letAct(critter, vector);
+        }
+      }, this);
+    },
+    letAct: function(critter, vector) {
+      var action = critter.act(new View(this, vector));
+      if (action && action.type == "move") {
+        var dest = this.checkDestination(action, vector);
+        if (dest && this.grid.get(dest) === null) {
+          this.grid.set(vector, null);
+          this.grid.set(dest, critter);
+        }
+      }
+    },
+    checkDestination: function(action, vector) {
+      if (gridModule.directions.hasOwnProperty(action.direction)) {
+        var dest = vector.plus(gridModule.directions[action.direction]);
+        if (this.grid.isInside(dest))
+          return dest;
+      }
+    },
+  };
 
+  function View(world, vector){
+    this.world = world;
+    this.vector = vector;
+  }
+  View.prototype = {
+    look: function(dir) {
+      var target = this.vector.plus(gridModule.directions[dir]);
+      if (this.world.grid.isInside(target))
+        return charFromElement(this.world.grid.get(target));
+      else
+        return "#";
+    },
+    findAll : function(ch) {
+      var found = [];
+      for (var dir in gridModule.directions)
+        if (this.look(dir) == ch)
+          found.push(dir);
+      return found;
+    },
+    find : function(ch) {
+      var found = this.findAll(ch);
+      if (found.length === 0) return null;
+      return randomElement(found);
+    }
+  };
+
+  return {
+    World: World,
+    View: View,
+    elementFromChar: elementFromChar,
+    randomElement: randomElement
+  };
+})();
+
+/////////////////NAMESPACE/////////////////////////////////////////////////S
 //---------------SIMPLE_ECOSYSTEM------------------------
 var SIMPLE_ECOSYSTEM = {};
 
@@ -210,7 +215,7 @@ ACTION.actionTypes.eat = function(critter, vector, action) {
 
 //we allow our critters to reproduce
 ACTION.actionTypes.reproduce = function(critter, vector, action) {
-  var baby = WORLD.elementFromChar(this.legend,
+  var baby = moduleWorld.elementFromChar(this.legend,
                              critter.originChar);
   var dest = this.checkDestination(action, vector);
   if (dest === null ||
@@ -253,7 +258,7 @@ ECOSYSTEM.SmartPlantEater.prototype.act = function(context) {
     return {type: "reproduce", direction: space};
   var plants = context.findAll("*");
   if (plants.length > 1)
-    return {type: "eat", direction: WORLD.randomElement(plants)};
+    return {type: "eat", direction: moduleWorld.randomElement(plants)};
   if (context.look(this.direction) != " " && space)
     this.direction = space;
   return {type: "move", direction: this.direction};
@@ -283,13 +288,13 @@ ECOSYSTEM.Predator.prototype.act = function(context) {
 
 //--------------------A more lifelike simulation--------------------------
 function LifelikeWorld(map, legend) {
-  WORLD.World.call(this, map, legend);
+  moduleWorld.World.call(this, map, legend);
 }
 
-LifelikeWorld.prototype = Object.create(WORLD.World.prototype);
+LifelikeWorld.prototype = Object.create(moduleWorld.World.prototype);
 
 LifelikeWorld.prototype.letAct = function(critter, vector) {
-  var action = critter.act(new WORLD.View(this, vector));
+  var action = critter.act(new moduleWorld.View(this, vector));
   var handled = action &&
     action.type in ACTION.actionTypes &&
     ACTION.actionTypes[action.type].call(this, critter, vector, action);
