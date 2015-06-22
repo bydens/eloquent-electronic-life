@@ -1,110 +1,106 @@
-//--------------Representing space-----------------------
+//----------name sapse GRID-----------------------------------
+var GRID = {};
 
-function Vector(x, y) {
+// add  object 'Vector' in name spase 'Grid'
+GRID.Vector = function(x, y) {
   this.x = x;
   this.y = y;
-}
-Vector.prototype.plus = function(other) {
-  return new Vector(this.x + other.x, this.y + other.y);
 };
-//--------------Grid--------------------------------------------
-function Grid(width, height) {
+GRID.Vector.prototype.plus = function(other) {
+  return new GRID.Vector(this.x + other.x, this.y + other.y);
+};
+
+// add  object 'Grid' in name spase 'Grid'
+GRID.Grid = function(width, height) {
   this.space = new Array(width * height);
   this.width = width;
   this.height = height;
-}
-Grid.prototype.isInside = function(vector) {
+};
+GRID.Grid.prototype.isInside = function(vector) {
   return vector.x >= 0 && vector.x < this.width &&
          vector.y >= 0 && vector.y < this.height;
 };
-Grid.prototype.get = function(vector) {
+GRID.Grid.prototype.get = function(vector) {
   return this.space[vector.x + this.width * vector.y];
 };
-Grid.prototype.set = function(vector, value) {
+GRID.Grid.prototype.set = function(vector, value) {
   this.space[vector.x + this.width * vector.y] = value;
 };
-Grid.prototype.forEach = function(f, context) {
+GRID.Grid.prototype.forEach = function(f, context) {
   for (var y = 0; y < this.height; y++) {
     for (var x = 0; x < this.width; x++) {
       var value = this.space[x + y * this.width];
       if (value !== null)
-        f.call(context, value, new Vector(x, y));
+        f.call(context, value, new GRID.Vector(x, y));
     }
   }
 };
 
-//-----------A critter’s programming interface-----------------
-var directions = {
-  "n":  new Vector( 0, 1),
-  "ne": new Vector( 1, -1),
-  "e":  new Vector( 1,  0),
-  "se": new Vector( 1,  1),
-  "s":  new Vector( 0, -1),
-  "sw": new Vector(-1,  1),
-  "w":  new Vector(-1,  0),
-  "nw": new Vector(-1, -1)
+//add 'direction' in namespase 'Grid'
+GRID.directions = {
+  "n":  new GRID.Vector( 0, 1),
+  "ne": new GRID.Vector( 1, -1),
+  "e":  new GRID.Vector( 1,  0),
+  "se": new GRID.Vector( 1,  1),
+  "s":  new GRID.Vector( 0, -1),
+  "sw": new GRID.Vector(-1,  1),
+  "w":  new GRID.Vector(-1,  0),
+  "nw": new GRID.Vector(-1, -1)
 };
 
-function randomElement(array) {
+//-------------------name sapse WORLD------------------------
+var WORLD = {};
+
+// add 'randomElement' in name sapse WORLD
+WORLD.randomElement = function(array) {
   return array[Math.floor(Math.random() * array.length)];
-}
-
-var directionNames = "n ne e se s sw w nw".split(" ");
-
-function BouncingCritter() {
-  this.direction = randomElement(directionNames);
-}
-BouncingCritter.prototype.act = function(view) {
-  if (view.look(this.direction) != " ")
-    this.direction = view.find(" ") || "s";
-  return {type: "move", direction: this.direction};
 };
 
-
-//----------------The world object-----------------------
-function elementFromChar(legend, ch) {
+//add 'elementFromChar' in name sapse WORLD
+WORLD.elementFromChar = function (legend, ch) {
   if (ch == " ")
     return null;
   var element = new legend[ch]();
   element.originChar = ch;
   return element;
-}
- 
-function World(map, legend) {
-  var grid = new Grid(map[0].length, map.length);
+};
+
+//add 'World' in name sapse WORLD 
+WORLD.World = function(map, legend) {
+  var grid = new GRID.Grid(map[0].length, map.length);
   this.grid = grid;
   this.legend = legend;
 
   map.forEach(function(line, y) {
     for (var x = 0; x < line.length; x++)
-      grid.set(new Vector(x, y),
-               elementFromChar(legend, line[x]));
+      grid.set(new GRID.Vector(x, y),
+               WORLD.elementFromChar(legend, line[x]));
   });
-}
+};
 
-function charFromElement(element) {
+//add 'charFromElement' in name sapse WORLD
+WORLD.charFromElement = function(element) {
   if (element === null)
     return " ";
   else
     return element.originChar;
-}
+};
 
-World.prototype.toString = function() {
+//add 'toString' in name sapse WORLD
+WORLD.World.prototype.toString = function() {
   var output = "";
   for (var y = 0; y < this.grid.height; y++) {
     for (var x = 0; x < this.grid.width; x++) {
-      var element = this.grid.get(new Vector(x, y));
-      output += charFromElement(element);
+      var element = this.grid.get(new GRID.Vector(x, y));
+      output += WORLD.charFromElement(element);
     }
     output += "\n";
   }
   return output;
 };
 
-function Wall() {}
-
 //----------------Animating life--------------------------
-World.prototype.turn = function() {
+WORLD.World.prototype.turn = function() {
   var acted = [];
   this.grid.forEach(function(critter, vector) {
     if (critter.act && acted.indexOf(critter) == -1) {
@@ -114,7 +110,7 @@ World.prototype.turn = function() {
   }, this);
 };
 
-World.prototype.letAct = function(critter, vector) {
+WORLD.World.prototype.letAct = function(critter, vector) {
   var action = critter.act(new View(this, vector));
   if (action && action.type == "move") {
     var dest = this.checkDestination(action, vector);
@@ -125,70 +121,71 @@ World.prototype.letAct = function(critter, vector) {
   }
 };
 
-World.prototype.checkDestination = function(action, vector) {
-  if (directions.hasOwnProperty(action.direction)) {
-    var dest = vector.plus(directions[action.direction]);
+WORLD.World.prototype.checkDestination = function(action, vector) {
+  if (GRID.directions.hasOwnProperty(action.direction)) {
+    var dest = vector.plus(GRID.directions[action.direction]);
     if (this.grid.isInside(dest))
       return dest;
   }
 };
 
-function View(world, vector) {
+//add 'View'  in name sapse WORLD
+WORLD.View = function(world, vector) {
   this.world = world;
   this.vector = vector;
-}
+};
  
-View.prototype.look = function(dir) {
-  var target = this.vector.plus(directions[dir]);
+WORLD.View.prototype.look = function(dir) {
+  var target = this.vector.plus(GRID.directions[dir]);
   if (this.world.grid.isInside(target))
-    return charFromElement(this.world.grid.get(target));
+    return WORLD.charFromElement(this.world.grid.get(target));
   else
     return "#";
 };
 
-View.prototype.findAll = function(ch) {
+WORLD.View.prototype.findAll = function(ch) {
   var found = [];
-  for (var dir in directions)
+  for (var dir in GRID.directions)
     if (this.look(dir) == ch)
       found.push(dir);
   return found;
 };
 
-View.prototype.find = function(ch) {
+WORLD.View.prototype.find = function(ch) {
   var found = this.findAll(ch);
   if (found.length === 0) return null;
-  return randomElement(found);
+  return WORLD.randomElement(found);
 };
 
-//--------------------A more lifelike simulation--------------------------
-function LifelikeWorld(map, legend) {
-  World.call(this, map, legend);
-}
 
-LifelikeWorld.prototype = Object.create(World.prototype);
+//---------------SIMPLE_ECOSYSTEM------------------------
+var SIMPLE_ECOSYSTEM = {};
 
-LifelikeWorld.prototype.letAct = function(critter, vector) {
-  var action = critter.act(new View(this, vector));
-  var handled = action &&
-    action.type in actionTypes &&
-    actionTypes[action.type].call(this, critter, vector, action);
-  if (!handled) {
-    critter.energy -= 0.2;
-    if (critter.energy <= 0)
-      this.grid.set(vector, null);
-  }
+//add Wall in SIMPLE_ECOSYSTEM
+SIMPLE_ECOSYSTEM.Wall = function() {};
+
+//add 'BouncingCritter' in namespase 'SIMPLE_ECOSYSTEM'?????????
+SIMPLE_ECOSYSTEM.BouncingCritter = function () {
+  var directionNames = "n ne e se s sw w nw".split(" ");
+  this.direction = WORLD.randomElement(directionNames);
+};
+SIMPLE_ECOSYSTEM.BouncingCritter.prototype.act = function(view) {
+  if (view.look(this.direction) != " ")
+    this.direction = view.find(" ") || "s";
+  return {type: "move", direction: this.direction};
 };
 
-//--------------------Actions-------------------------------
-var actionTypes = Object.create(null);
+// ---------------------namespace ACTION -------------------------------
+var ACTION = {};
+ACTION.actionTypes = Object.create(null);
 
-actionTypes.grow = function(critter) {
+ACTION.actionTypes.grow = function(critter) {
   critter.energy += 0.5;
   return true;
 };
 
 //Moving
-actionTypes.move = function(critter, vector, action) {
+ACTION.actionTypes.move = function(critter, vector, action) {
   var dest = this.checkDestination(action, vector);
   if (dest === null ||
       critter.energy <= 1 ||
@@ -201,7 +198,7 @@ actionTypes.move = function(critter, vector, action) {
 };
 
 //critters can eat..
-actionTypes.eat = function(critter, vector, action) {
+ACTION.actionTypes.eat = function(critter, vector, action) {
   var dest = this.checkDestination(action, vector);
   var atDest = dest !== null && this.grid.get(dest);
   if (!atDest || atDest.energy === null)
@@ -212,8 +209,8 @@ actionTypes.eat = function(critter, vector, action) {
 };
 
 //we allow our critters to reproduce
-actionTypes.reproduce = function(critter, vector, action) {
-  var baby = elementFromChar(this.legend,
+ACTION.actionTypes.reproduce = function(critter, vector, action) {
+  var baby = WORLD.elementFromChar(this.legend,
                              critter.originChar);
   var dest = this.checkDestination(action, vector);
   if (dest === null ||
@@ -225,13 +222,17 @@ actionTypes.reproduce = function(critter, vector, action) {
   return true;
 };
 
-//-------------------Populating the new world--------------------------
-//write a plant
-function Plant() {
-  this.energy = 3 + Math.random() * 4;
-}
+//----------------namespace ECOSYSTEM------------------------------------
+var ECOSYSTEM = {};
 
-Plant.prototype.act = function(context) {
+//Wall
+ECOSYSTEM.Wall = function(){};
+
+// Palnt
+ECOSYSTEM.Plant = function() {
+  this.energy = 3 + Math.random() * 4;
+};
+ECOSYSTEM.Plant.prototype.act = function(context) {
   if (this.energy > 15) {
     var space = context.find(" ");
     if (space)
@@ -241,36 +242,33 @@ Plant.prototype.act = function(context) {
     return {type: "grow"};
 };
 
-//------------my code ------------------------------------------
-
-//------------Artificial Stupidity-------------------------------
-function SmartPlantEater() {
+//SmartPlantEater
+ECOSYSTEM.SmartPlantEater = function() {
   this.energy = 30;
   this.direction = "e";
-}
-SmartPlantEater.prototype.act = function(context) {
+};
+ECOSYSTEM.SmartPlantEater.prototype.act = function(context) {
   var space = context.find(" ");
   if (this.energy > 70 && space)
     return {type: "reproduce", direction: space};
   var plants = context.findAll("*");
   if (plants.length > 1)
-    return {type: "eat", direction: randomElement(plants)};
+    return {type: "eat", direction: WORLD.randomElement(plants)};
   if (context.look(this.direction) != " " && space)
     this.direction = space;
   return {type: "move", direction: this.direction};
 };
 
-//------------------Predators-----------------------------
-
-function Predator() {
+//Predator
+ECOSYSTEM.Predator = function() {
   this.energy = 100;
   this.direction = "w";
 
-}
-Predator.prototype.act = function(context) {
+};
+ECOSYSTEM.Predator.prototype.act = function(context) {
   var prey = context.findAll("O");
   if (prey.length) {
-    return {type: "eat", direction: randomElement(prey)};
+    return {type: "eat", direction: WORLD.randomElement(prey)};
   }
 
   var space = context.find(" ") || context.find("*");
@@ -283,6 +281,24 @@ Predator.prototype.act = function(context) {
   return {type: "move", direction: this.direction};
 };
 
+//--------------------A more lifelike simulation--------------------------
+function LifelikeWorld(map, legend) {
+  WORLD.World.call(this, map, legend);
+}
+
+LifelikeWorld.prototype = Object.create(WORLD.World.prototype);
+
+LifelikeWorld.prototype.letAct = function(critter, vector) {
+  var action = critter.act(new WORLD.View(this, vector));
+  var handled = action &&
+    action.type in ACTION.actionTypes &&
+    ACTION.actionTypes[action.type].call(this, critter, vector, action);
+  if (!handled) {
+    critter.energy -= 0.2;
+    if (critter.energy <= 0)
+      this.grid.set(vector, null);
+  }
+};
 
 //-----------------Add more plants and spices--------------
 var valley = new LifelikeWorld(
@@ -304,8 +320,8 @@ var valley = new LifelikeWorld(
    "##  **  O   O     #    ***  ***        ###      ** #",
    "###               #   *****                    ****#",
    "####################################################"],
-  {"#": Wall,
-   "$": Predator,
-   "O": SmartPlantEater,
-   "*": Plant}
+  {"#": ECOSYSTEM.Wall,
+   "$": ECOSYSTEM.Predator,
+   "O": ECOSYSTEM.SmartPlantEater,
+   "*": ECOSYSTEM.Plant}
 );
