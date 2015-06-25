@@ -1,5 +1,5 @@
 // ---------------------namespace ACTION -------------------------------
-(function(module){
+define(['../helper/elementFromChar'], function(elementFromChar){
   var actionTypes = Object.create(null);
 
   actionTypes.grow = function(critter) {
@@ -33,7 +33,7 @@
 
   //we allow our critters to reproduce
   actionTypes.reproduce = function(critter, vector, action) {
-    var baby = module.elementFromChar(this.legend,
+    var baby = elementFromChar(this.legend,
                                critter.originChar);
     var dest = this.checkDestination(action, vector);
     if (dest === null ||
@@ -45,5 +45,6 @@
     return true;
   };
   
-  module.Action = actionTypes;
-})(Elife);
+  // module.Action = actionTypes;
+  return actionTypes;
+});

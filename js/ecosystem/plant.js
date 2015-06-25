@@ -1,4 +1,4 @@
-(function(module){
+define([], function(){
   function Plant() {
     this.energy = 3 + Math.random() * 4;
   }
@@ -15,5 +15,6 @@
     }
   };
 
-  module.Plant = Plant;
-})(Elife);
+  return Plant;
+  // module.Plant = Plant;
+});

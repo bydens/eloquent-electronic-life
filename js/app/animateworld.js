@@ -1,6 +1,6 @@
 // test: no
 
-(function(module) {
+define(['./map'], function(world) {
   "use strict";
 
   var active = null;
@@ -52,5 +52,6 @@
 
   window.animateWorld = function(world) { new Animated(world); };
 
-  module.animateWorld = animateWorld;
-})(Elife);
+  // module.animateWorld = animateWorld;
+  return new Animated(world);
+});

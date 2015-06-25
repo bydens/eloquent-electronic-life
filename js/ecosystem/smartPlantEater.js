@@ -1,4 +1,4 @@
-(function(module){
+define(['../helper/randomElement'], function(randomElement){
   function SmartPlantEater() {
     this.energy = 30;
     this.direction = "e";
@@ -10,12 +10,13 @@
         return {type: "reproduce", direction: space};
       var plants = context.findAll("*");
       if (plants.length > 1)
-        return {type: "eat", direction: module.randomElement(plants)};
+        return {type: "eat", direction: randomElement(plants)};
       if (context.look(this.direction) != " " && space)
         this.direction = space;
       return {type: "move", direction: this.direction};
     }
   };
 
-  module.SmartPlantEater = SmartPlantEater;
-})(Elife);
+  // module.SmartPlantEater = SmartPlantEater;
+  return SmartPlantEater;
+});

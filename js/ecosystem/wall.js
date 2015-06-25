@@ -1,4 +1,5 @@
-(function(module){
+define(function(){
     function Wall() {}
-    module.Wall = Wall;
-})(Elife);
+    return Wall;
+    // module.Wall = Wall;
+});

@@ -1,5 +1,5 @@
 //-----------------------module grid----------------------------
-(function(module){
+define(['./vector'], function(Vector){
   function Grid(width, height) {
     this.space = new Array(width * height);
     this.width = width;
@@ -22,11 +22,12 @@
         for (var x = 0; x < this.width; x++) {
           var value = this.space[x + y * this.width];
           if (value !== null)
-          f.call(context, value, new module.Vector(x, y));
+          f.call(context, value, new Vector(x, y));
         }
       }
     },
   };
 
-  module.Grid = Grid;
-})(Elife);
+  // module.Grid = Grid;
+  return Grid;
+});

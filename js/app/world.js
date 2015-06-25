@@ -1,14 +1,28 @@
 //--------------------module World----------------------------
-(function(module){
+define(
+  [
+    './grid', 
+    './vector', 
+    '../helper/elementFromChar', 
+    '../helper/charFromElement',
+    './directions'
+  ], 
+  function(
+    Grid, 
+    Vector, 
+    elementFromChar, 
+    charFromElement,
+    directions
+  ){
   function World(map, legend) {
-    var grid = new module.Grid(map[0].length, map.length);
+    var grid = new Grid(map[0].length, map.length);
     this.grid = grid;
     this.legend = legend;
 
     map.forEach(function(line, y) {
       for (var x = 0; x < line.length; x++)
-        grid.set(new module.Vector(x, y),
-                 module.elementFromChar(legend, line[x]));
+        grid.set(new Vector(x, y),
+                 elementFromChar(legend, line[x]));
     });
   }
   World.prototype = {
@@ -16,8 +30,8 @@
       var output = "";
       for (var y = 0; y < this.grid.height; y++) {
         for (var x = 0; x < this.grid.width; x++) {
-          var element = this.grid.get(new module.Vector(x, y));
-          output += module.charFromElement(element);
+          var element = this.grid.get(new Vector(x, y));
+          output += charFromElement(element);
         }
         output += "\n";
       }
@@ -43,13 +57,14 @@
       }
     },
     checkDestination: function(action, vector) {
-      if (module.directions.hasOwnProperty(action.direction)) {
-        var dest = vector.plus(module.directions[action.direction]);
+      if (directions.hasOwnProperty(action.direction)) {
+        var dest = vector.plus(directions[action.direction]);
         if (this.grid.isInside(dest))
           return dest;
       }
     },
   };
 
-    module.World = World;
-})(Elife);
+    // module.World = World;
+    return World;
+});

@@ -1,4 +1,4 @@
-(function(module){
+define([], function(){
   function elementFromChar(legend, ch) {
     if (ch == " ")
       return null;
@@ -7,6 +7,6 @@
     return element;
   }
 
-  module.elementFromChar = elementFromChar;
-  
-})(Elife);
+  // module.elementFromChar = elementFromChar;
+  return elementFromChar;
+});

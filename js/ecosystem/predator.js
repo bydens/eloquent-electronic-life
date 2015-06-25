@@ -1,4 +1,4 @@
-(function(module){
+define(['../helper/randomElement'], function(randomElement){
   function Predator() {
     this.energy = 100;
     this.direction = "w";
@@ -7,7 +7,7 @@
     act: function(context) {
       var prey = context.findAll("O");
       if (prey.length) {
-        return {type: "eat", direction: module.randomElement(prey)};
+        return {type: "eat", direction: randomElement(prey)};
       }
 
       var space = context.find(" ") || context.find("*");
@@ -21,5 +21,6 @@
     }
   };
 
-  module.Predator = Predator;
-})(Elife);
+  return Predator;
+  // module.Predator = Predator;
+});
