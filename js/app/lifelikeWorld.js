@@ -1,4 +1,4 @@
-define(["./world"], function(moduleWorld){
+define(["./world", "./action"], function(moduleWorld, moduleAction){
 // if (!moduleLifelikeWorld) {
   var moduleLifelikeWorld = (function(){
     function LifelikeWorld(map, legend) {

@@ -1,5 +1,6 @@
 // test: no
-define(['./world'], function(world){
+define(['./elife'], function(world){
+// define([], function(){
   var anim = (function() {
     "use strict";
 
@@ -11,6 +12,7 @@ define(['./world'], function(world){
       var node = outer.appendChild(doc.createElement("div"));
       node.style.cssText = "position: relative; width: intrinsic; width: fit-content;";
       this.pre = node.appendChild(doc.createElement("pre"));
+console.log(world);
       this.pre.appendChild(doc.createTextNode(world.toString()));
       this.button = node.appendChild(doc.createElement("div"));
       this.button.style.cssText = "position: absolute; bottom: 8px; right: -4.5em; color: white; font-family: tahoma, arial; " +
@@ -52,11 +54,12 @@ define(['./world'], function(world){
 
     // window.animateWorld = function(world) { new Animated(world); };
     Animated.prototype.start = function(world) {
-      document.write(new Animated(world));
+      // document.write(new Animated(world));
       // window.animateWorld = function(world) { new Animated(world); };
       // new Animated(world);
     };
     return {Animated: Animated};
   })();
-  return new anim.Animated();
+  return new anim.Animated(world);
+  // return anim;
 });

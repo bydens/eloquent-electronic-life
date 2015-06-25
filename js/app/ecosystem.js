@@ -1,4 +1,4 @@
-define([], function(){
+define(['./world'], function(moduleWorld){
   // if(!moduleEcosystem) {
     var moduleEcosystem = (function(){
       function Wall() {}
