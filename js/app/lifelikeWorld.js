@@ -1,4 +1,5 @@
-if (!moduleLifelikeWorld) {
+define(["./world"], function(moduleWorld){
+// if (!moduleLifelikeWorld) {
   var moduleLifelikeWorld = (function(){
     function LifelikeWorld(map, legend) {
       moduleWorld.World.call(this, map, legend);
@@ -19,4 +20,6 @@ if (!moduleLifelikeWorld) {
 
     return {LifelikeWorld: LifelikeWorld};
   })();
-}
+  return moduleLifelikeWorld;
+// }
+});
