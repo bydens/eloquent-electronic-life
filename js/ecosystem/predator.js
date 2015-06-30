@@ -26,6 +26,7 @@ var randomElement = require('../helper/randomElement');
   // module.Predator = Predator;
   // setInterval(function() { console.log(new Predator().act()); }, 1000);
   // setInterval(function() { console.log(new Predator().direction); }, 1000);
+  // setInterval(function() { console.log(new Predator().energy); }, 1000);
   module.exports = Predator;
   // return Predator;
 // });
