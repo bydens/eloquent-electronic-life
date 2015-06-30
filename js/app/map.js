@@ -1,21 +1,5 @@
 //-----------------Add more plants and spices--------------
-// define(
-//    [
-//       './lifelikeWorld', 
-//       '../ecosystem/wall',
-//       '../ecosystem/predator',
-//       '../ecosystem/smartPlantEater',
-//       '../ecosystem/plant'
-//    ], 
-//    function(
-//       LifelikeWorl, 
-//       Wall,
-//       Predator,
-//       SmartPlantEater,
-//       Plant
-//    ){
-
-define(function(require){
+// define(function(require){
    var LifelikeWorl = require('./lifelikeWorld'), 
        Wall = require('../ecosystem/wall'),
        Predator = require('../ecosystem/predator'),
@@ -46,7 +30,7 @@ define(function(require){
       "O": SmartPlantEater,
       "*": Plant}
    );
-   // module.valley = valley;
-   // module.valley;
-   return valley;
-});
+   // return valley;
+   module.exports = valley.toString();
+   // console.log(valley.toString());
+// });

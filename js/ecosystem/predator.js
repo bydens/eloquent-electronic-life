@@ -1,4 +1,6 @@
-define(['../helper/randomElement'], function(randomElement){
+// define(['../helper/randomElement'], function(randomElement){
+var randomElement = require('../helper/randomElement');
+
   function Predator() {
     this.energy = 100;
     this.direction = "w";
@@ -21,6 +23,9 @@ define(['../helper/randomElement'], function(randomElement){
     }
   };
 
-  return Predator;
   // module.Predator = Predator;
-});
+  // setInterval(function() { console.log(new Predator().act()); }, 1000);
+  // setInterval(function() { console.log(new Predator().direction); }, 1000);
+  module.exports = Predator;
+  // return Predator;
+// });

@@ -1,5 +1,7 @@
 //-----------------------module grid----------------------------
-define(['./vector'], function(Vector){
+// define(['./vector'], function(Vector){
+  var Vector = require('./vector');
+
   function Grid(width, height) {
     this.space = new Array(width * height);
     this.width = width;
@@ -29,5 +31,6 @@ define(['./vector'], function(Vector){
   };
 
   // module.Grid = Grid;
-  return Grid;
-});
+  module.exports = Grid;
+  // return Grid;
+// });

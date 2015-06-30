@@ -1,4 +1,4 @@
-define([], function(){
+// define([], function(){
   function elementFromChar(legend, ch) {
     if (ch == " ")
       return null;
@@ -8,5 +8,6 @@ define([], function(){
   }
 
   // module.elementFromChar = elementFromChar;
-  return elementFromChar;
-});
+  module.exports = elementFromChar;
+  // return elementFromChar;
+// });

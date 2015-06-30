@@ -1,4 +1,6 @@
-define(['../helper/randomElement'], function(randomElement){
+// define(['../helper/randomElement'], function(randomElement){
+  var randomElement = require('../helper/randomElement');
+  
   function SmartPlantEater() {
     this.energy = 30;
     this.direction = "e";
@@ -18,5 +20,6 @@ define(['../helper/randomElement'], function(randomElement){
   };
 
   // module.SmartPlantEater = SmartPlantEater;
-  return SmartPlantEater;
-});
+  module.exports = SmartPlantEater;
+  // return SmartPlantEater;
+// });

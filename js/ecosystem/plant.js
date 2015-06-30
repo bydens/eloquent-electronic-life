@@ -1,4 +1,4 @@
-define([], function(){
+// define([], function(){
   function Plant() {
     this.energy = 3 + Math.random() * 4;
   }
@@ -15,6 +15,7 @@ define([], function(){
     }
   };
 
-  return Plant;
+  // return Plant;
+  module.exports = Plant;
   // module.Plant = Plant;
-});
+// });

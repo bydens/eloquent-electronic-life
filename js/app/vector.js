@@ -1,4 +1,4 @@
-define([], function(){
+// define([], function(){
   function Vector(x, y) {
     this.x = x;
     this.y = y;
@@ -7,5 +7,6 @@ define([], function(){
     return new Vector(this.x + other.x, this.y + other.y);
   };
   // module.Vector = Vector;
-  return Vector;
-});
+  module.exports = Vector;
+  // return Vector;
+// });

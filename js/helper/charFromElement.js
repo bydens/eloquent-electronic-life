@@ -1,4 +1,4 @@
-define([], function(){
+// define([], function(){
   function charFromElement(element) {
     if (element === null)
       return " ";
@@ -6,6 +6,7 @@ define([], function(){
       return element.originChar;
   }
 
-  return charFromElement;
+  // return charFromElement;
+  module.exports = charFromElement;
   // module.charFromElement = charFromElement;
-});
+// });

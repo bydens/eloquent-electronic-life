@@ -1,5 +1,7 @@
 // ---------------------namespace ACTION -------------------------------
-define(['../helper/elementFromChar'], function(elementFromChar){
+// define(['../helper/elementFromChar'], function(elementFromChar){
+  var elementFromChar = require('../helper/elementFromChar');
+
   var actionTypes = Object.create(null);
 
   actionTypes.grow = function(critter) {
@@ -46,5 +48,6 @@ define(['../helper/elementFromChar'], function(elementFromChar){
   };
   
   // module.Action = actionTypes;
-  return actionTypes;
-});
+  module.exports = actionTypes;
+  // return actionTypes;
+// });

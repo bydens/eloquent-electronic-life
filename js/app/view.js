@@ -1,4 +1,8 @@
-define(['./directions', '../helper/charFromElement', '../helper/randomElement'], function(directions, charFromElement, randomElement){
+// define(['./directions', '../helper/charFromElement', '../helper/randomElement'], function(directions, charFromElement, randomElement){
+var directions = require('./directions'), 
+    charFromElement = require('../helper/charFromElement'), 
+    randomElement = require('../helper/randomElement');
+
     function View(world, vector){
     this.world = world;
     this.vector = vector;
@@ -25,6 +29,7 @@ define(['./directions', '../helper/charFromElement', '../helper/randomElement'],
     }
   };
 
-  return View;
   // module.View = View;
-});
+  module.exports = View;
+  // return View;
+// });

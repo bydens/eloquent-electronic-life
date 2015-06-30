@@ -1,5 +1,6 @@
-define(function(){
+// define(function(){
     function Wall() {}
-    return Wall;
     // module.Wall = Wall;
-});
+    module.exports = Wall;
+    // return Wall;
+// });

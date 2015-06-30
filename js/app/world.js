@@ -1,19 +1,26 @@
 //--------------------module World----------------------------
-define(
-  [
-    './grid', 
-    './vector', 
-    '../helper/elementFromChar', 
-    '../helper/charFromElement',
-    './directions'
-  ], 
-  function(
-    Grid, 
-    Vector, 
-    elementFromChar, 
-    charFromElement,
-    directions
-  ){
+// define(
+//   [
+//     './grid', 
+//     './vector', 
+//     '../helper/elementFromChar', 
+//     '../helper/charFromElement',
+//     './directions'
+//   ], 
+//   function(
+//     Grid, 
+//     Vector, 
+//     elementFromChar, 
+//     charFromElement,
+//     directions
+//   ){
+
+var Grid = require('./grid'), 
+    Vector = require('./vector'), 
+    elementFromChar = require('../helper/elementFromChar'), 
+    charFromElement = require('../helper/charFromElement'),
+    directions = require('./directions');
+
   function World(map, legend) {
     var grid = new Grid(map[0].length, map.length);
     this.grid = grid;
@@ -66,5 +73,6 @@ define(
   };
 
     // module.World = World;
-    return World;
-});
+    module.exports = World;
+    // return World;
+// });
