@@ -1,8 +1,9 @@
 // test: no
 
-define(['./map'], function(world) {
+// define(['./map'], function(world) {
+define(function(require) {
   "use strict";
-
+  var world = require('./map');
   var active = null;
 
   function Animated(world) {

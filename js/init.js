@@ -1,14 +1,45 @@
 require.config({
-  baseUrl: "js"
+  baseUrl: "js/app",
+  // path: {
+  //   map: 'map'
+  // }
 });
+
+// require([
+//   "grid", 
+//   "world", 
+//   "action", 
+//   "ecosystem", 
+//   "lifelikeWorld", 
+//   "elife", 
+//   "animateworld"
+// ], 
+//  function(Grid, 
+//           World, 
+//           Action, 
+//           Ecosystem, 
+//           LifelikeWorld, 
+//           Elife, 
+//           Animateworld
+//           ) {
+//   // console.log(Elife);
+//   // new Animateworld.Animated(Elife);
+//   // console.log(Animateworld(Elife));
+//   // Animateworld.Animated.start(Elife);
+//   // var animateWorld = 'test';
+//   // return animateWorld;
+// });
 
 require([
-  "app/animateworld"
+  // "elife"
+  "animateworld" 
 ], 
- function(Animateworld) {
-  // console.log(Animateworld);
+ function(Animated) {
+  // new Animated(Elife);???????????????????????
+  // console.log(Elife);
+  // new Animateworld.Animated(Elife);
+  // console.log(Animateworld(Elife));
+  // Animateworld.Animated.start(Elife);
+  // var animateWorld = 'test';
+  // return animateWorld;
 });
-
-// requirejs(['elife'], function(Elife){
-//   Elife.animateWorld(Elife.valley);
-// });
