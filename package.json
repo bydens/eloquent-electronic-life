@@ -1,0 +1,13 @@
+{
+  "name": "ElectronicLife.",
+  "version": "0.0.1",
+  "author": "Denys Bykanov",
+  "description": "Electronic life",
+  "devDependencies": {
+    "browserify": "latest"
+  },
+  "scripts": {
+    "build-js": "browserify js/app/animateworld.js > js/main.js",
+    "watch-js": "watchify js/app/animateworld.js -o js/main.js -v"
+  }
+}
