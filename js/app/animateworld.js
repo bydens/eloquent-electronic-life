@@ -1,9 +1,12 @@
-// test: no
+/**
+ * @license eLife 1.0 Copyright (c) 2015, Denys Bykanov All Rights Reserved.
+ * Available via the MIT or new BSD license.
+ * see: https://github.com/bydens/eloquent-electronic-life for details
+ */
 
-// define(['./map'], function(world) {
 define(function(require) {
   "use strict";
-  var world = require('./map');
+  var world = require('./valley');
   var active = null;
 
   function Animated(world) {
@@ -53,6 +56,5 @@ define(function(require) {
 
   window.animateWorld = function(world) { new Animated(world); };
 
-  // module.animateWorld = animateWorld;
   return new Animated(world);
 });

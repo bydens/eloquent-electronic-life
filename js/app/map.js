@@ -1,38 +1,24 @@
-//-----------------Add more plants and spices--------------
-// define(function(require){
-   var LifelikeWorl = require('./lifelikeWorld'), 
-       Wall = require('../ecosystem/wall'),
-       Predator = require('../ecosystem/predator'),
-       SmartPlantEater = require('../ecosystem/smartPlantEater'),
-       Plant = require('../ecosystem/plant');
-// console.log(LifelikeWorl);
-   var valley = new LifelikeWorl(
-     ["####################################################",
-      "#                 ####         ****              ###",
-      "#   *  $  ##                 ########       OO    ##",
-      "#   *    ##        O O          ###    ****       *#",
-      "#       ##*                        **#   ####     *#",
-      "#      ##***  *         ****                     **#",
-      "#* **  #  *  ***      ###                 ****** **#",
-      "#* **  #      * *              #  *              **#",
-      "#     ##              #   O   #  ***          ######",
-      "#*            $              #   **        O  #    #",
-      "#*                    #     #    *****          ** #",
-      "###          ****          ***                  ** #",
-      "#       O                        $         O       #",
-      "#   *     ##  ##  ##  ##               ###      *  #",
-      "#   **         #              *     *****##  O     #",
-      "##  **  O   O     #    ***  ***        ###      ** #",
-      "###               #   *****                    ****#",
-      "####################################################"],
-     {"#": Wall,
-      "$": Predator,
-      "O": SmartPlantEater,
-      "*": Plant}
-   );
-   // return valley;
-   // console.log(Wall);
-   module.exports = valley;
-   // module.exports = valley.toString();
-   // console.log(valley.toString());
-// });
+/**
+ * @license eLife 1.0 Copyright (c) 2015, Denys Bykanov All Rights Reserved.
+ * Available via the MIT or new BSD license.
+ * see: https://github.com/bydens/eloquent-electronic-life for details
+ */
+ 
+module.exports = ["####################################################",
+                  "#                 ####         ****              ###",
+                  "#   *  $  ##                 ########       OO    ##",
+                  "#   *    ##        O O          ###    ****       *#",
+                  "#       ##*                        **#   ####     *#",
+                  "#      ##***  *         ****                     **#",
+                  "#* **  #  *  ***      ###                 ****** **#",
+                  "#* **  #      * *              #  *              **#",
+                  "#     ##              #   O   #  ***          ######",
+                  "#*            $              #   **        O  #    #",
+                  "#*                    #     #    *****          ** #",
+                  "###          ****          ***                  ** #",
+                  "#       O                        $         O       #",
+                  "#   *     ##  ##  ##  ##               ###      *  #",
+                  "#   **         #              *     *****##  O     #",
+                  "##  **  O   O     #    ***  ***        ###      ** #",
+                  "###               #   *****                    ****#",
+                  "####################################################"];

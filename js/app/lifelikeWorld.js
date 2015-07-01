@@ -1,4 +1,9 @@
-// define(['./world', './view', './action'], function(World, View, Action){
+/**
+ * @license eLife 1.0 Copyright (c) 2015, Denys Bykanov All Rights Reserved.
+ * Available via the MIT or new BSD license.
+ * see: https://github.com/bydens/eloquent-electronic-life for details
+ */
+
 var World = require('./world'), 
     View = require('./view'), 
     Action = require('./action');
@@ -22,5 +27,3 @@ LifelikeWorld.prototype.letAct = function(critter, vector) {
 };
 
 module.exports = LifelikeWorld;
-  // return LifelikeWorld;
-// });
