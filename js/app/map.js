@@ -5,7 +5,7 @@
        Predator = require('../ecosystem/predator'),
        SmartPlantEater = require('../ecosystem/smartPlantEater'),
        Plant = require('../ecosystem/plant');
-console.log(LifelikeWorl);
+// console.log(LifelikeWorl);
    var valley = new LifelikeWorl(
      ["####################################################",
       "#                 ####         ****              ###",
