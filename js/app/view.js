@@ -1,4 +1,16 @@
-define(['./directions', '../helper/charFromElement', '../helper/randomElement'], function(directions, charFromElement, randomElement){
+/**
+ * @license eLife 1.0 Copyright (c) 2015, Denys Bykanov All Rights Reserved.
+ * Available via the MIT or new BSD license.
+ * see: https://github.com/bydens/eloquent-electronic-life for details
+ */
+
+define(function(require){
+  'use strict';
+
+  var directions = require('./directions'), 
+      charFromElement = require('../helper/charFromElement'), 
+      randomElement = require('../helper/randomElement');
+
     function View(world, vector){
     this.world = world;
     this.vector = vector;
@@ -26,5 +38,4 @@ define(['./directions', '../helper/charFromElement', '../helper/randomElement'],
   };
 
   return View;
-  // module.View = View;
 });

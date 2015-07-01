@@ -1,19 +1,18 @@
-//--------------------module World----------------------------
-define(
-  [
-    './grid', 
-    './vector', 
-    '../helper/elementFromChar', 
-    '../helper/charFromElement',
-    './directions'
-  ], 
-  function(
-    Grid, 
-    Vector, 
-    elementFromChar, 
-    charFromElement,
-    directions
-  ){
+/**
+ * @license eLife 1.0 Copyright (c) 2015, Denys Bykanov All Rights Reserved.
+ * Available via the MIT or new BSD license.
+ * see: https://github.com/bydens/eloquent-electronic-life for details
+ */
+
+define(function(require){
+  'use strict';
+
+  var Grid = require('./grid'), 
+      Vector = require('./vector'), 
+      elementFromChar = require('../helper/elementFromChar'), 
+      charFromElement = require('../helper/charFromElement'),
+      directions = require('./directions');
+
   function World(map, legend) {
     var grid = new Grid(map[0].length, map.length);
     this.grid = grid;
@@ -65,6 +64,5 @@ define(
     },
   };
 
-    // module.World = World;
-    return World;
+  return World;
 });

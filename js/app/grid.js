@@ -1,5 +1,14 @@
-//-----------------------module grid----------------------------
-define(['./vector'], function(Vector){
+/**
+ * @license eLife 1.0 Copyright (c) 2015, Denys Bykanov All Rights Reserved.
+ * Available via the MIT or new BSD license.
+ * see: https://github.com/bydens/eloquent-electronic-life for details
+ */
+ 
+define(function(require){
+  'use strict';
+  
+  var Vector = require('./vector');
+
   function Grid(width, height) {
     this.space = new Array(width * height);
     this.width = width;
@@ -28,6 +37,5 @@ define(['./vector'], function(Vector){
     },
   };
 
-  // module.Grid = Grid;
   return Grid;
 });

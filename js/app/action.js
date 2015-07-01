@@ -1,5 +1,13 @@
-// ---------------------namespace ACTION -------------------------------
-define(['../helper/elementFromChar'], function(elementFromChar){
+/**
+ * @license eLife 1.0 Copyright (c) 2015, Denys Bykanov All Rights Reserved.
+ * Available via the MIT or new BSD license.
+ * see: https://github.com/bydens/eloquent-electronic-life for details
+ */
+
+define(function(require) {
+  "use strict";
+  
+  var elementFromChar = require('../helper/elementFromChar');
   var actionTypes = Object.create(null);
 
   actionTypes.grow = function(critter) {
@@ -7,7 +15,6 @@ define(['../helper/elementFromChar'], function(elementFromChar){
     return true;
   };
 
-  //Moving
   actionTypes.move = function(critter, vector, action) {
     var dest = this.checkDestination(action, vector);
     if (dest === null ||
@@ -20,7 +27,6 @@ define(['../helper/elementFromChar'], function(elementFromChar){
     return true;
   };
 
-  //critters can eat..
   actionTypes.eat = function(critter, vector, action) {
     var dest = this.checkDestination(action, vector);
     var atDest = dest !== null && this.grid.get(dest);
@@ -31,7 +37,6 @@ define(['../helper/elementFromChar'], function(elementFromChar){
     return true;
   };
 
-  //we allow our critters to reproduce
   actionTypes.reproduce = function(critter, vector, action) {
     var baby = elementFromChar(this.legend,
                                critter.originChar);
@@ -44,7 +49,6 @@ define(['../helper/elementFromChar'], function(elementFromChar){
     this.grid.set(dest, baby);
     return true;
   };
-  
-  // module.Action = actionTypes;
+
   return actionTypes;
 });

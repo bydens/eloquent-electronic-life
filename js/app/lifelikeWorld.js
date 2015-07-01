@@ -1,4 +1,16 @@
-define(['./world', './view', './action'], function(World, View, Action){
+/**
+ * @license eLife 1.0 Copyright (c) 2015, Denys Bykanov All Rights Reserved.
+ * Available via the MIT or new BSD license.
+ * see: https://github.com/bydens/eloquent-electronic-life for details
+ */
+
+define(function(require){
+  'use strict';
+
+  var World = require('./world'),
+      View = require('./view'),
+      Action = require('./action');
+
   function LifelikeWorld(map, legend) {
     World.call(this, map, legend);
   }
@@ -17,6 +29,5 @@ define(['./world', './view', './action'], function(World, View, Action){
     }
   };
 
-  // module.LifelikeWorl = LifelikeWorld;
   return LifelikeWorld;
 });
