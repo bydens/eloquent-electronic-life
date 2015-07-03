@@ -6,14 +6,14 @@
 
 var elementFromChar = require('../helper/elementFromChar');
 
-var actionTypes = Object.create(null);
+var Action = Object.create(null);
 
-actionTypes.grow = function(critter) {
+Action.grow = function(critter) {
   critter.energy += 0.5;
   return true;
 };
 
-actionTypes.move = function(critter, vector, action) {
+Action.move = function(critter, vector, action) {
   var dest = this.checkDestination(action, vector);
   if (dest === null ||
       critter.energy <= 1 ||
@@ -25,7 +25,7 @@ actionTypes.move = function(critter, vector, action) {
   return true;
 };
 
-actionTypes.eat = function(critter, vector, action) {
+Action.eat = function(critter, vector, action) {
   var dest = this.checkDestination(action, vector);
   var atDest = dest !== null && this.grid.get(dest);
   if (!atDest || atDest.energy === null)
@@ -35,7 +35,7 @@ actionTypes.eat = function(critter, vector, action) {
   return true;
 };
 
-actionTypes.reproduce = function(critter, vector, action) {
+Action.reproduce = function(critter, vector, action) {
   var baby = elementFromChar(this.legend,
                              critter.originChar);
   var dest = this.checkDestination(action, vector);
@@ -48,4 +48,4 @@ actionTypes.reproduce = function(critter, vector, action) {
   return true;
 };
 
-module.exports = actionTypes;
+module.exports = Action;
