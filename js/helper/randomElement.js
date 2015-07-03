@@ -4,8 +4,6 @@
  * see: https://github.com/bydens/eloquent-electronic-life for details
  */
 
-function randomElement(array) {
+module.exports = function (array) {
    return array[Math.floor(Math.random() * array.length)];
-}
-
-module.exports = randomElement;
+};

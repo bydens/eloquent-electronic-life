@@ -4,11 +4,11 @@
  * see: https://github.com/bydens/eloquent-electronic-life for details
  */
 
-var LifelikeWorl = require('./lifelikeWorld'), 
-    Wall = require('../ecosystem/wall'),
-    Predator = require('../ecosystem/predator'),
-    SmartPlantEater = require('../ecosystem/smartPlantEater'),
-    Plant = require('../ecosystem/plant'),
+var LifelikeWorl = require('./LifelikeWorld'), 
+    Wall = require('../ecosystem/Wall'),
+    Predator = require('../ecosystem/Predator'),
+    SmartPlantEater = require('../ecosystem/SmartPlantEater'),
+    Plant = require('../ecosystem/Plant'),
     map = require('./map');
 
 module.exports = new LifelikeWorl(map,

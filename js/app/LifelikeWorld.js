@@ -4,9 +4,9 @@
  * see: https://github.com/bydens/eloquent-electronic-life for details
  */
 
-var World = require('./world'), 
-    View = require('./view'), 
-    Action = require('./action');
+var World = require('./World'), 
+    View = require('./View'), 
+    Action = require('./Action');
 
 function LifelikeWorld(map, legend) {
   World.call(this, map, legend);

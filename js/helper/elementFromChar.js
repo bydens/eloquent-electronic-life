@@ -4,12 +4,10 @@
  * see: https://github.com/bydens/eloquent-electronic-life for details
  */
 
-function elementFromChar(legend, ch) {
+module.exports = function(legend, ch) {
   if (ch == " ")
     return null;
   var element = new legend[ch]();
   element.originChar = ch;
   return element;
-}
-
-module.exports = elementFromChar;
+};

@@ -4,9 +4,9 @@
  * see: https://github.com/bydens/eloquent-electronic-life for details
  */
 
-var Elife = require('./app/valley');
+var elife = require('./app/valley');
 
 setInterval(function() {
-  Elife.turn();
-  console.log(Elife.toString());
+  elife.turn();
+  console.log(elife.toString());
 }, 333);

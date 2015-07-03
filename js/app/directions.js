@@ -4,7 +4,7 @@
  * see: https://github.com/bydens/eloquent-electronic-life for details
  */
 
-var Vector = require('./vector');
+var Vector = require('./Vector');
 
 module.exports = {
   "n":  new Vector( 0, 1),

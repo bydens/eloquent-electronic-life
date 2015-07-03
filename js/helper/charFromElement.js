@@ -4,11 +4,9 @@
  * see: https://github.com/bydens/eloquent-electronic-life for details
  */
  
-function charFromElement(element) {
+module.exports = function (element) {
   if (element === null)
     return " ";
   else
     return element.originChar;
-}
-
-module.exports = charFromElement;
+};

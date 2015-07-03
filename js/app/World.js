@@ -4,8 +4,8 @@
  * see: https://github.com/bydens/eloquent-electronic-life for details
  */
 
-var Grid = require('./grid'), 
-    Vector = require('./vector'), 
+var Grid = require('./Grid'), 
+    Vector = require('./Vector'), 
     elementFromChar = require('../helper/elementFromChar'), 
     charFromElement = require('../helper/charFromElement'),
     directions = require('./directions');
