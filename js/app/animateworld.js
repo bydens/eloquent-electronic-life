@@ -52,4 +52,4 @@ Animated.prototype.disable = function() {
   this.button.style.color = "red";
 };
 
-window.animateWorld =  function() { new Animated(world); };
+window.animateWorld = function() { new Animated(world); };

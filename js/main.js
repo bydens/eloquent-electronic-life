@@ -57,82 +57,7 @@ module.exports = actionTypes;
  * see: https://github.com/bydens/eloquent-electronic-life for details
  */
 
-var world = require('./valley');
-var active = null;
-
-function Animated(world) {
-  this.world = world;
-  var outer = (window.__sandbox ? window.__sandbox.output.div : document.body), doc = outer.ownerDocument;
-  var node = outer.appendChild(doc.createElement("div"));
-  node.style.cssText = "position: relative; width: intrinsic; width: fit-content;";
-  this.pre = node.appendChild(doc.createElement("pre"));
-  this.pre.appendChild(doc.createTextNode(world.toString()));
-  this.button = node.appendChild(doc.createElement("div"));
-  this.button.style.cssText = "position: absolute; bottom: 8px; right: -4.5em; color: white; font-family: tahoma, arial; " +
-    "background: #4ab; cursor: pointer; border-radius: 18px; font-size: 70%; width: 3.5em; text-align: center;";
-  this.button.innerHTML = "stop";
-  var self = this;
-  this.button.addEventListener("click", function() { self.clicked(); });
-  this.disabled = false;
-  if (active) active.disable();
-  active = this;
-  this.interval = setInterval(function() { self.tick(); }, 333);
-}
-
-Animated.prototype.clicked = function() {
-  if (this.disabled) return;
-  if (this.interval) {
-    clearInterval(this.interval);
-    this.interval = null;
-    this.button.innerHTML = "start";
-  } else {
-    var self = this;
-    this.interval = setInterval(function() { self.tick(); }, 333);
-    this.button.innerHTML = "stop";
-  }
-};
-
-Animated.prototype.tick = function() {
-  this.world.turn();
-  this.pre.removeChild(this.pre.firstChild);
-  this.pre.appendChild(this.pre.ownerDocument.createTextNode(this.world.toString()));
-};
-
-Animated.prototype.disable = function() {
-  this.disabled = true;
-  clearInterval(this.interval);
-  this.button.innerHTML = "Disabled";
-  this.button.style.color = "red";
-};
-
-window.animateWorld =  function() { new Animated(world); };
-},{"./valley":7}],3:[function(require,module,exports){
-/**
- * @license eLife 1.0 Copyright (c) 2015, Denys Bykanov All Rights Reserved.
- * Available via the MIT or new BSD license.
- * see: https://github.com/bydens/eloquent-electronic-life for details
- */
-
-var Vector = require('./vector');
-
-module.exports = {
-  "n":  new Vector( 0, 1),
-  "ne": new Vector( 1, -1),
-  "e":  new Vector( 1,  0),
-  "se": new Vector( 1,  1),
-  "s":  new Vector( 0, -1),
-  "sw": new Vector(-1,  1),
-  "w":  new Vector(-1,  0),
-  "nw": new Vector(-1, -1)
-};
-},{"./vector":8}],4:[function(require,module,exports){
-/**
- * @license eLife 1.0 Copyright (c) 2015, Denys Bykanov All Rights Reserved.
- * Available via the MIT or new BSD license.
- * see: https://github.com/bydens/eloquent-electronic-life for details
- */
-
-var Vector = require('./vector');
+var Vector = require('./Vector');
 
 function Grid(width, height) {
   this.space = new Array(width * height);
@@ -163,16 +88,16 @@ Grid.prototype = {
 };
 
 module.exports = Grid;
-},{"./vector":8}],5:[function(require,module,exports){
+},{"./Vector":4}],3:[function(require,module,exports){
 /**
  * @license eLife 1.0 Copyright (c) 2015, Denys Bykanov All Rights Reserved.
  * Available via the MIT or new BSD license.
  * see: https://github.com/bydens/eloquent-electronic-life for details
  */
 
-var World = require('./world'), 
-    View = require('./view'), 
-    Action = require('./action');
+var World = require('./World'), 
+    View = require('./View'), 
+    Action = require('./Action');
 
 function LifelikeWorld(map, legend) {
   World.call(this, map, legend);
@@ -193,52 +118,7 @@ LifelikeWorld.prototype.letAct = function(critter, vector) {
 };
 
 module.exports = LifelikeWorld;
-},{"./action":1,"./view":9,"./world":10}],6:[function(require,module,exports){
-/**
- * @license eLife 1.0 Copyright (c) 2015, Denys Bykanov All Rights Reserved.
- * Available via the MIT or new BSD license.
- * see: https://github.com/bydens/eloquent-electronic-life for details
- */
- 
-module.exports = ["####################################################",
-                  "#                 ####         ****              ###",
-                  "#   *  $  ##                 ########       OO    ##",
-                  "#   *    ##        O O          ###    ****       *#",
-                  "#       ##*                        **#   ####     *#",
-                  "#      ##***  *         ****                     **#",
-                  "#* **  #  *  ***      ###                 ****** **#",
-                  "#* **  #      * *              #  *              **#",
-                  "#     ##              #   O   #  ***          ######",
-                  "#*            $              #   **        O  #    #",
-                  "#*                    #     #    *****          ** #",
-                  "###          ****          ***                  ** #",
-                  "#       O                        $         O       #",
-                  "#   *     ##  ##  ##  ##               ###      *  #",
-                  "#   **         #              *     *****##  O     #",
-                  "##  **  O   O     #    ***  ***        ###      ** #",
-                  "###               #   *****                    ****#",
-                  "####################################################"];
-},{}],7:[function(require,module,exports){
-/**
- * @license eLife 1.0 Copyright (c) 2015, Denys Bykanov All Rights Reserved.
- * Available via the MIT or new BSD license.
- * see: https://github.com/bydens/eloquent-electronic-life for details
- */
-
-var LifelikeWorl = require('./lifelikeWorld'), 
-    Wall = require('../ecosystem/wall'),
-    Predator = require('../ecosystem/predator'),
-    SmartPlantEater = require('../ecosystem/smartPlantEater'),
-    Plant = require('../ecosystem/plant'),
-    map = require('./map');
-
-module.exports = new LifelikeWorl(map,
-                               {"#": Wall,
-                                "$": Predator,
-                                "O": SmartPlantEater,
-                                "*": Plant}
-                              );
-},{"../ecosystem/plant":11,"../ecosystem/predator":12,"../ecosystem/smartPlantEater":13,"../ecosystem/wall":14,"./lifelikeWorld":5,"./map":6}],8:[function(require,module,exports){
+},{"./Action":1,"./View":5,"./World":6}],4:[function(require,module,exports){
 /**
  * @license eLife 1.0 Copyright (c) 2015, Denys Bykanov All Rights Reserved.
  * Available via the MIT or new BSD license.
@@ -254,7 +134,7 @@ Vector.prototype.plus = function(other) {
 };
 
 module.exports = Vector;
-},{}],9:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 /**
  * @license eLife 1.0 Copyright (c) 2015, Denys Bykanov All Rights Reserved.
  * Available via the MIT or new BSD license.
@@ -292,15 +172,15 @@ View.prototype = {
 };
 
 module.exports = View;
-},{"../helper/charFromElement":15,"../helper/randomElement":17,"./directions":3}],10:[function(require,module,exports){
+},{"../helper/charFromElement":15,"../helper/randomElement":17,"./directions":8}],6:[function(require,module,exports){
 /**
  * @license eLife 1.0 Copyright (c) 2015, Denys Bykanov All Rights Reserved.
  * Available via the MIT or new BSD license.
  * see: https://github.com/bydens/eloquent-electronic-life for details
  */
 
-var Grid = require('./grid'), 
-    Vector = require('./vector'), 
+var Grid = require('./Grid'), 
+    Vector = require('./Vector'), 
     elementFromChar = require('../helper/elementFromChar'), 
     charFromElement = require('../helper/charFromElement'),
     directions = require('./directions');
@@ -357,7 +237,127 @@ World.prototype = {
 };
 
 module.exports = World;
-},{"../helper/charFromElement":15,"../helper/elementFromChar":16,"./directions":3,"./grid":4,"./vector":8}],11:[function(require,module,exports){
+},{"../helper/charFromElement":15,"../helper/elementFromChar":16,"./Grid":2,"./Vector":4,"./directions":8}],7:[function(require,module,exports){
+/**
+ * @license eLife 1.0 Copyright (c) 2015, Denys Bykanov All Rights Reserved.
+ * Available via the MIT or new BSD license.
+ * see: https://github.com/bydens/eloquent-electronic-life for details
+ */
+
+var world = require('./valley');
+var active = null;
+
+function Animated(world) {
+  this.world = world;
+  var outer = (window.__sandbox ? window.__sandbox.output.div : document.body), doc = outer.ownerDocument;
+  var node = outer.appendChild(doc.createElement("div"));
+  node.style.cssText = "position: relative; width: intrinsic; width: fit-content;";
+  this.pre = node.appendChild(doc.createElement("pre"));
+  this.pre.appendChild(doc.createTextNode(world.toString()));
+  this.button = node.appendChild(doc.createElement("div"));
+  this.button.style.cssText = "position: absolute; bottom: 8px; right: -4.5em; color: white; font-family: tahoma, arial; " +
+    "background: #4ab; cursor: pointer; border-radius: 18px; font-size: 70%; width: 3.5em; text-align: center;";
+  this.button.innerHTML = "stop";
+  var self = this;
+  this.button.addEventListener("click", function() { self.clicked(); });
+  this.disabled = false;
+  if (active) active.disable();
+  active = this;
+  this.interval = setInterval(function() { self.tick(); }, 333);
+}
+
+Animated.prototype.clicked = function() {
+  if (this.disabled) return;
+  if (this.interval) {
+    clearInterval(this.interval);
+    this.interval = null;
+    this.button.innerHTML = "start";
+  } else {
+    var self = this;
+    this.interval = setInterval(function() { self.tick(); }, 333);
+    this.button.innerHTML = "stop";
+  }
+};
+
+Animated.prototype.tick = function() {
+  this.world.turn();
+  this.pre.removeChild(this.pre.firstChild);
+  this.pre.appendChild(this.pre.ownerDocument.createTextNode(this.world.toString()));
+};
+
+Animated.prototype.disable = function() {
+  this.disabled = true;
+  clearInterval(this.interval);
+  this.button.innerHTML = "Disabled";
+  this.button.style.color = "red";
+};
+
+window.animateWorld = function() { new Animated(world); };
+},{"./valley":10}],8:[function(require,module,exports){
+/**
+ * @license eLife 1.0 Copyright (c) 2015, Denys Bykanov All Rights Reserved.
+ * Available via the MIT or new BSD license.
+ * see: https://github.com/bydens/eloquent-electronic-life for details
+ */
+
+var Vector = require('./Vector');
+
+module.exports = {
+  "n":  new Vector( 0, 1),
+  "ne": new Vector( 1, -1),
+  "e":  new Vector( 1,  0),
+  "se": new Vector( 1,  1),
+  "s":  new Vector( 0, -1),
+  "sw": new Vector(-1,  1),
+  "w":  new Vector(-1,  0),
+  "nw": new Vector(-1, -1)
+};
+},{"./Vector":4}],9:[function(require,module,exports){
+/**
+ * @license eLife 1.0 Copyright (c) 2015, Denys Bykanov All Rights Reserved.
+ * Available via the MIT or new BSD license.
+ * see: https://github.com/bydens/eloquent-electronic-life for details
+ */
+ 
+module.exports = ["####################################################",
+                  "#                 ####         ****              ###",
+                  "#   *  $  ##                 ########       OO    ##",
+                  "#   *    ##        O O          ###    ****       *#",
+                  "#       ##*                        **#   ####     *#",
+                  "#      ##***  *         ****                     **#",
+                  "#* **  #  *  ***      ###                 ****** **#",
+                  "#* **  #      * *              #  *              **#",
+                  "#     ##              #   O   #  ***          ######",
+                  "#*            $              #   **        O  #    #",
+                  "#*                    #     #    *****          ** #",
+                  "###          ****          ***                  ** #",
+                  "#       O                        $         O       #",
+                  "#   *     ##  ##  ##  ##               ###      *  #",
+                  "#   **         #              *     *****##  O     #",
+                  "##  **  O   O     #    ***  ***        ###      ** #",
+                  "###               #   *****                    ****#",
+                  "####################################################"];
+},{}],10:[function(require,module,exports){
+/**
+ * @license eLife 1.0 Copyright (c) 2015, Denys Bykanov All Rights Reserved.
+ * Available via the MIT or new BSD license.
+ * see: https://github.com/bydens/eloquent-electronic-life for details
+ */
+
+var LifelikeWorl = require('./LifelikeWorld'), 
+    Wall = require('../ecosystem/Wall'),
+    Predator = require('../ecosystem/Predator'),
+    SmartPlantEater = require('../ecosystem/SmartPlantEater'),
+    Plant = require('../ecosystem/Plant'),
+    map = require('./map');
+
+module.exports = new LifelikeWorl(map,
+                               {"#": Wall,
+                                "$": Predator,
+                                "O": SmartPlantEater,
+                                "*": Plant}
+                              );
+},{"../ecosystem/Plant":11,"../ecosystem/Predator":12,"../ecosystem/SmartPlantEater":13,"../ecosystem/Wall":14,"./LifelikeWorld":3,"./map":9}],11:[function(require,module,exports){
 /**
  * @license eLife 1.0 Copyright (c) 2015, Denys Bykanov All Rights Reserved.
  * Available via the MIT or new BSD license.
@@ -492,4 +492,4 @@ function randomElement(array) {
 }
 
 module.exports = randomElement;
-},{}]},{},[2]);
+},{}]},{},[7]);
